@@ -1,0 +1,34 @@
+@contentType = application/json
+@baseLoca = http://localhost:3700/
+
+###
+# @name get-search
+GET {{baseLoca}}api/search?q=celular
+Content-Type: {{contentType}}
+
+###
+# @name get-sort
+GET {{baseLoca}}api/search?q=celular&sort=price_asc
+Content-Type: {{contentType}}
+
+###
+# @name get-filter
+GET {{baseLoca}}api/search?q=celular&sort=price_asc&price=*-25000.0
+Content-Type: {{contentType}}
+
+###
+# @name get-limit
+GET {{baseLoca}}api/search?q=celular&sort=price_asc&price=*-25000.0&limit=30&offset=0
+Content-Type: {{contentType}}
+
+########################################
+
+###
+# @name get-categories
+GET {{baseLoca}}api/search/categories
+Content-Type: {{contentType}}
+
+###
+# @name get-categories-items
+GET {{baseLoca}}api/search/categories/MLA5725
+Content-Type: {{contentType}}
