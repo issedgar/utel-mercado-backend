@@ -40,9 +40,11 @@ const get = async (req: Request, res: Response) => {
     queryApiMercado += `&offset=${ query.offset ? query.offset : 0 }`;
     
     const defaultAtt = ['q', 'sort', 'limit', 'offset'];
+    const filterQry: Array<any> = [];
     Object.entries(query).forEach( ([key, value]) => {
         if(!defaultAtt.find( v => v === key)) {
             queryApiMercado += `&${ key }=${ value }`;
+            filterQry.push({ key, value});
         }
     });
 
@@ -53,7 +55,22 @@ const get = async (req: Request, res: Response) => {
         bufferSearch = dataBuffer.search;
     }
     let data: IHttpResponse= {};
-    const dataLocal = bufferSearch.find( b => (b.query === q && b.sort === sort && b.category === category && b.limit === limit && b.offset === offset));
+
+    let dataLocal = undefined;
+    for await (const item of bufferSearch) {
+        if( item.query === q && item.sort === sort && item.category === category &&
+            item.limit === limit && item.offset === offset ) {
+            if(!item.filterQry) { item.filterQry = []; }
+            if( item.filterQry.length === filterQry.length ) {
+                let resultA = filterQry.filter(elm => !item.filterQry!.map(elm => JSON.stringify(elm)).includes(JSON.stringify(elm)));
+                let resultB = item.filterQry.filter(elm => !filterQry.map(elm => JSON.stringify(elm)).includes(JSON.stringify(elm)));  
+                if(resultA.length === 0 && resultB.length === 0) {
+                    dataLocal = item;
+                }
+            }
+        }               
+    }
+    // const dataLocal = bufferSearch.find( b => (b.query === q && b.sort === sort && b.category === category && b.limit === limit && b.offset === offset));
     if(!dataLocal) {
         console.log('❌', 'Not buffer');    
 
@@ -95,7 +112,8 @@ const get = async (req: Request, res: Response) => {
                 results: dataResult,
                 paging: data.paging,
                 available_sorts: data.available_sorts,
-                available_filters: data.available_filters
+                available_filters: data.available_filters,
+                filterQry
              });
             if(bufferSearch.length > maxItemBuffer) {
                 bufferSearch.shift();

@@ -6,6 +6,7 @@ export interface IBufferItem extends IHttpResponse {
     limit?: number;
     offset: number;
     results?: Array<any>;
+    filterQry?: Array<any>;
 }
 
 export interface IBufferLocal {
