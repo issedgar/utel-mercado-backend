@@ -1,5 +1,6 @@
 @contentType = application/json
 @baseLoca = http://localhost:3700/
+@baseHeroku = https://app-utel-mercado-backend.herokuapp.com/
 
 ###
 # @name get-search
@@ -18,7 +19,7 @@ Content-Type: {{contentType}}
 
 ###
 # @name get-limit
-GET {{baseLoca}}api/search?q=celular&sort=price_asc&price=*-25000.0&limit=30&offset=0
+GET {{baseHeroku}}api/search?q=celular&sort=price_asc&price=*-25000.0&limit=30&offset=0
 Content-Type: {{contentType}}
 
 ########################################
