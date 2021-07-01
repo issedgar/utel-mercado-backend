@@ -90,7 +90,13 @@ const get = async (req: Request, res: Response) => {
             }
 
             // writer in buffer, max = 3 searchs        
-            bufferSearch.push({ query: q, sort, category, limit, offset, results: dataResult });
+            bufferSearch.push({ 
+                query: q, sort, category, limit, offset, 
+                results: dataResult,
+                paging: data.paging,
+                available_sorts: data.available_sorts,
+                available_filters: data.available_filters
+             });
             if(bufferSearch.length > maxItemBuffer) {
                 bufferSearch.shift();
             }
