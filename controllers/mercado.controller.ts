@@ -53,7 +53,7 @@ const get = async (req: Request, res: Response) => {
         bufferSearch = dataBuffer.search;
     }
     let data: IHttpResponse= {};
-    const dataLocal = bufferSearch.find( b => (b.q === q && b.sort === sort && b.category === category && b.limit === limit && b.offset === offset));
+    const dataLocal = bufferSearch.find( b => (b.query === q && b.sort === sort && b.category === category && b.limit === limit && b.offset === offset));
     if(!dataLocal) {
         console.log('❌', 'Not buffer');    
 
@@ -90,7 +90,7 @@ const get = async (req: Request, res: Response) => {
             }
 
             // writer in buffer, max = 3 searchs        
-            bufferSearch.push({ q, sort, category, limit, offset, data: dataResult });
+            bufferSearch.push({ query: q, sort, category, limit, offset, results: dataResult });
             if(bufferSearch.length > maxItemBuffer) {
                 bufferSearch.shift();
             }
@@ -100,7 +100,7 @@ const get = async (req: Request, res: Response) => {
         }    
     } else {
         console.log('🟢', 'local buffer');
-        data = dataLocal.data as IHttpResponse;
+        data = dataLocal as IBufferItem;
     }
     return res.status(status).json({
         status: true,

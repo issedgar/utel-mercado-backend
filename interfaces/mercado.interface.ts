@@ -1,8 +1,11 @@
-import { IHttpQueryPage } from "./http.interface";
+import { IHttpResponse } from "./http.interface";
 
-export interface IBufferItem extends IHttpQueryPage {    
-    data?: Array<any>;
-
+export interface IBufferItem extends IHttpResponse {
+    sort?: string;
+    category?: string;
+    limit?: number;
+    offset: number;
+    results?: Array<any>;
 }
 
 export interface IBufferLocal {
