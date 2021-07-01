@@ -4,8 +4,6 @@ API para realizar consultas al API de Mercado Libre
 
 ## URL Mercado libre
 
-Using npm:
-
 `https://api.mercadolibre.com/sites/MLA/search?q={query}`
 
 ## Servicios expuestos
@@ -36,7 +34,7 @@ GET {{baseLoca}}api/search/categories/MLA5725
 Content-Type: {{contentType}}
 ```
 
-## Puerto donde se ejcuta de forma local
+## Puerto donde se ejecuta de forma local
 `Archivo: .env`
 
 ```ts
