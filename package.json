@@ -6,14 +6,15 @@
   "scripts": {
     "clean": "rimraf dist",
     "copyfiles": "copyfiles .env dist",
-    "build": "tsc && npm run copyfiles && mkdirp ./dist/public && npm run copyhtml",
+    "build": "tsc && npm run copyfiles && mkdirp ./dist/public && npm run copyhtml && npm run copyJSON",
     "watch:build": "tsc --watch",
     "watch:server": "cd ./dist & nodemon './dist/index.js' --watch './dist'",
-    "server": "tsc --watch | nodemon --inspect ./dist/index.js --watch dist",
+    "server": "npm run copyJSON && tsc --watch | nodemon --inspect ./dist/index.js --watch dist",
     "server2": "npm-run-all clean build --parallel watch:build watch:server --print-label",
     "start": "node dist/index.js",
     "copyhtml": "copyfiles public/*.html dist",
-    "tsc": "tsc && mkdirp ./dist/public && npm run copyhtml",
+    "copyJSON": "copyfiles data/*.json dist",
+    "tsc": "tsc && mkdirp ./dist/public && npm run copyhtml && npm run copyJSON",
     "postinstall": "npm run tsc"
   },
   "author": "Edgar Carrillo",
@@ -25,7 +26,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.12.0",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "write-json-file": "^4.3.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",
